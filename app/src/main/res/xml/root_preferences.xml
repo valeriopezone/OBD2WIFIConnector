@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:key="obd_wifi_url"
+            app:title="@string/settings_wifi_url"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="obd_wifi_port"
+            app:title="@string/settings_wifi_port"
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
+
+   <!-- <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+-->
+</PreferenceScreen>

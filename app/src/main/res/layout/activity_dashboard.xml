@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="clip_horizontal|clip_vertical"
+        android:orientation="vertical">
+
+        <!--<com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monitor" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Error Codes" />
+
+
+        </com.google.android.material.tabs.TabLayout>-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dashboard_monitor_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/odb_connection_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Connected!"
+                    android:textColor="#4CAF50"
+                    android:textSize="36sp" />
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#55C4F6"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <CheckedTextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Wifi Adapter : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_wifi_adapter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#55C4F6"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <CheckedTextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Protocol : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_protocol"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="OBD Voltage : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_adapter_voltage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Voltage : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_voltage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Fuel Type : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_fuel_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-" />
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Ignition : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_ignition"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Fuel Level : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_fuel_level"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Fuel Pressure : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_fuel_pressure"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Air Intake : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_air_intake"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Ambient Air : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_ambient_air"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Real Time Monitors"
+                        android:textColor="#000000"
+                        android:textSize="28sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="#6FD5D5D5"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Speed"
+                            android:textColor="#000000"
+                            android:textSize="24sp" />
+
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graph_realtime_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
+                            android:background="#00FFFFFF"
+                            app:seriesColor="#FF5722" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="#6FD5D5D5"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Engine Speed"
+                            android:textColor="#000000"
+                            android:textSize="24sp" />
+
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graph_realtime_rpm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
+                            android:background="#00FFFFFF" />
+                    </LinearLayout>
+                    <!--android:layout_weight="1"-->
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="#6FD5D5D5"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Oil Temperature"
+                            android:textColor="#000000"
+                            android:textSize="24sp" />
+
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graph_oil_temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
+                            android:background="#00FFFFFF" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="#6FD5D5D5"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Coolant Temperature"
+                            android:textColor="#000000"
+                            android:textSize="24sp" />
+
+                        <com.jjoe64.graphview.GraphView
+                            android:id="@+id/graph_realtime_coolant_temperature"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
+                            android:background="#00FFFFFF" />
+                    </LinearLayout>
+                    <!--                        android:layout_width="0dp"-->
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Error Codes"
+                            android:textColor="#000000"
+                            android:textSize="28sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Trouble Codes : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_trouble_codes"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Pending Codes : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_pending_codes"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#6FD5D5D5"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+
+                        <CheckedTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Permanent Codes : "
+                            android:textColor="#000000" />
+
+                        <CheckedTextView
+                            android:id="@+id/monitor_permanent_codes"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="-"
+                            android:textColor="#000000" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
