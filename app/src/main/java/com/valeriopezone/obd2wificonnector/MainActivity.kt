@@ -32,11 +32,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        //setSupportActionBar(findViewById(R.id.toolbar))
 
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Plug the ELM327 Adapter in your vehicle then turn ignition ON and press Connect", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
 
@@ -64,19 +63,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
 
 
-        /*
-
-        */
-
         }
-
-        //findViewById<Button>(R.id.splashscreen_btn_instructions).setOnClickListener {
-            //val intent = Intent(this, InstructionsFragment::class.java)
-            //startActivity(intent)
-            // NavHostFragment.findNavController(R.id.nav_graph)
-
-            //findNavController(this,R.id.nav_host_fragment)//.navigate(R.id.goto_instructions_from_main)
-       // }
 
 
     }
@@ -91,8 +78,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 Log.i("OBDCONNECTOR", "OBD INTERFACE FOUND!")
                 // goto dashboard
                 Log.i("OBDCONNECTOR", "GO TO DASHBOARD")
-
-                //obdConn.execOBDCommand(SpeedCommand())
 
                 val intent = Intent(context, DashboardActivity::class.java)
                 startActivity(intent)
@@ -121,32 +106,3 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
 
 
-
-/*  val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-StrictMode.setThreadPolicy(policy);
-
-
-//client.outputStream.write("Hello from the client!".toByteArray())
-
-Log.i("OBDCONNECTOR", "clsed")
-
-}
-}
-
-override fun onCreateOptionsMenu(menu: Menu): Boolean {
-// Inflate the menu; this adds items to the action bar if it is present.
-menuInflater.inflate(R.menu.menu_main, menu)
-return true
-}
-
-override fun onOptionsItemSelected(item: MenuItem): Boolean {
-// Handle action bar item clicks here. The action bar will
-// automatically handle clicks on the Home/Up button, so long
-// as you specify a parent activity in AndroidManifest.xml.
-return when (item.itemId) {
-R.id.action_settings -> true
-else -> super.onOptionsItemSelected(item)
-}
-}
-
-*/

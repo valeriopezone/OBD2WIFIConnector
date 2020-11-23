@@ -31,15 +31,12 @@ class OBDConnector(context: Context) {
 
         Log.i("OBDCONNECTOR", "LOADED CONF -----> " + obd_wifi_url + ":" + obd_wifi_port)
 
-
-        // private var client : Socket = Socket("192.168.0.10", 35000)
-                // private var obdConnection : ObdDeviceConnection = ObdDeviceConnection(this.client.getInputStream(), this.client.getOutputStream())
         StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build());
     }
     suspend fun connect() : Boolean{
 
         try{
-            Log.i("OBDCONNECTOR", "CONNECT (KA) TO " + obd_wifi_url + " : " + obd_wifi_port)
+            Log.i("OBDCONNECTOR", "CONNECT TO " + obd_wifi_url + " : " + obd_wifi_port)
             obdSocket = Socket( obd_wifi_url,obd_wifi_port)
             obdSocket!!.keepAlive = true
 
@@ -49,20 +46,20 @@ class OBDConnector(context: Context) {
             Log.i("OBDCONNECTOR EXCEPTION", "CONNECTING ERROR - WIFI INTERFACE :: " + lastError)
             return false;
         }
-if(obdSocket!= null && obdSocket!!.isConnected()){
-    try{
-        Log.i("OBDCONNECTOR", "CONNECTING THROUGH OBD INTERFACE")
-        obdConnection = ObdDeviceConnection(obdSocket!!.getInputStream(), obdSocket!!.getOutputStream())
-        if(obdConnection != null){
-            isConnected = true
-            return true
-        }
-    } catch (t: Throwable) {
-        close()
-        lastError = t.message.toString()
-        Log.i("OBDCONNECTOR EXCEPTION", "CONNECTING ERROR - OBD :: " + lastError)
-        return false;
-    }
+        if(obdSocket!= null && obdSocket!!.isConnected()){
+            try{
+                Log.i("OBDCONNECTOR", "CONNECTING THROUGH OBD INTERFACE")
+                obdConnection = ObdDeviceConnection(obdSocket!!.getInputStream(), obdSocket!!.getOutputStream())
+                if(obdConnection != null){
+                    isConnected = true
+                    return true
+                }
+            } catch (t: Throwable) {
+                close()
+                lastError = t.message.toString()
+                Log.i("OBDCONNECTOR EXCEPTION", "CONNECTING ERROR - OBD :: " + lastError)
+                return false;
+            }
 
 
 }
@@ -107,9 +104,10 @@ if(obdSocket!= null && obdSocket!!.isConnected()){
         }else{
 
             try{
-                val delay = 150L//if(firstRequestDone){150L}else{150L}
+                val delay = 150L
+
                 val response = obdConnection?.run(cmd, false,delay)
-                //Log.i("OBDCONNECTOR", "CMD " + cmd.rawCommand.toString() + " RES : " + response?.rawResponse.toString())
+
                 if (response != null) {
                     Log.i("OBDCONNECTOR RES", cmd.toString() + " = " + response.rawResponse.toString() + "(" + response.formattedValue + ")")
 

@@ -6,29 +6,4 @@
     >
 
 
-
-     <!--app:startDestination="@id/SecondFragment"
-
-     <fragment
-         android:id="@+id/nav_host_fragment"
-         android:label="@string/second_fragment_label"
-         tools:layout="@layout/content_main">
-
-         <action
-             android:id="@+id/goto_instructions_from_main"
-             app:destination="@id/InstructionsFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/InstructionsFragment"
-        android:name="com.valeriopezone.obd2wificonnector.InstructionsFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/content_main">
-
-        <action
-            android:id="@+id/goto_main_from_instructions"
-            app:destination="@id/nav_host_fragment" />
-    </fragment>-->
-
-
 </navigation>

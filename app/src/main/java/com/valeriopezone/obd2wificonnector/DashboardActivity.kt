@@ -65,7 +65,6 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
 )
 
     private var obdLastDatapoints : MutableMap<String, Array<DataPoint>> = mutableMapOf()
-    //private var obdLastResponseValues : MutableMap<String, String> = mutableMapOf()
 
     private var mapGraphIdsByCMD : Map<String,Int> = mapOf(
             Pair(EngineCoolantTemperatureCommand().name,R.id.graph_realtime_coolant_temperature),
@@ -190,11 +189,10 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
 
                             commandsToSend.forEach {
                                 suspend {
-                                    //val obdResponseText: String = async { requestData(it, obdLocalConn) }.await()
+                                    //send command
                                     val obdResponseText: String = async {obdLocalConn.execOBDCommand(it)}.await()
 
 
-                                    //obdLastResponseValues[it.name] = obdResponseText
                                     if(obdResponseText != "") {
                                         launch {
 
@@ -219,7 +217,7 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
                         obdLocalConn.close()
 
                     }.await()
-                    Log.i("OBDCONNECTOR", "delay")
+
                     mHandler.postDelayed(context, 50)
                     //}
                 }
@@ -248,15 +246,6 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
         findViewById<CheckedTextView>(view).text = label
     }
 
-   /* suspend fun requestData(cmd: ObdCommand, conn : OBDConnector):String {
-        var context = this
-        val response = async {conn?.execOBDCommand(cmd)}.await()
-        var res:String = "0"
-        if(response != null){
-            res = response
-        }
-        return res
-    }*/
 
     private fun manageDatapoints(cmd : ObdCommand, lastResponse : String) : Unit{
         var Value : Double = 0.0
@@ -272,24 +261,18 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
         //insert at top of datapoints
         val currentDataPoints = obdLastDatapoints[cmd.name]
         if (currentDataPoints != null) {
-            /*if(!firstValueAlreadyObtained[cmd.name]!!){
-                for(i in 0..pointsPerGraph-2) {
-                    //obdLastDatapoints[cmd.name]?.set(i,DataPoint(i.toDouble(), currentDataPoints[i+1].y))
-                    obdLastDatapoints[cmd.name]?.set(i,DataPoint(i.toDouble(), Value))
-                }
-                firstValueAlreadyObtained[cmd.name] = true
-            //}else{*/
+
                 for(i in 0..pointsPerGraph-2) {
                     obdLastDatapoints[cmd.name]?.set(i,DataPoint(i.toDouble(), currentDataPoints[i+1].y))
                 }
-            //}
+
 
             obdLastDatapoints[cmd.name]?.set(pointsPerGraph-1,DataPoint((pointsPerGraph-1).toDouble(), Value))
 
-            for(i in 0..pointsPerGraph-1) {
-                Log.i("OBDDATAPOINT", "aft  " + cmd.name + " to " + obdLastDatapoints[cmd.name]?.get(i).toString())
+            /*for(i in 0..pointsPerGraph-1) {
+                Log.i("OBDDATAPOINT",  cmd.name + " to " + obdLastDatapoints[cmd.name]?.get(i).toString())
             }
-            Log.i("OBDDATAPOINT", "-")
+            Log.i("OBDDATAPOINT", "-")*/
 
         }
     }
@@ -298,116 +281,3 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
 
 
 
-
-/*
-    obdConn  = OBDConnector(this)
-
-        GlobalScope.launch{
-            obdConn!!.connect()
-        }
-
-        Log.i("OBDRESPONSEVALSINIT", "launch")
-        CoroutineScope(Main).launch{
-            val job = async {
-                initGraphCommands.forEach {
-                    suspend {
-                        val obdResponseText: String = async { requestData(it) }.await()
-                        obdLastResponseValues[it.name] = obdResponseText
-                         Log.i("OBDRESPONSEVALSINIT", "GET FROM  " + it + " -> " + obdResponseText)
-                        delay(15)
-                    }.invoke()
-                }
-            }.await()
-            Log.i("OBDRESPONSEVALSINIT", "FINISH1")
-
-            findViewById<CheckedTextView>(R.id.monitor_protocol).text = "Protocol : " + obdLastResponseValues[DescribeProtocolNumberCommand().name]
-            findViewById<CheckedTextView>(R.id.monitor_ignition).text = "Ignition : " + obdLastResponseValues[IgnitionMonitorCommand().name]
-            findViewById<CheckedTextView>(R.id.monitor_voltage).text = "Voltage : " + obdLastResponseValues[AdapterVoltageCommand().name]
-        }
-        Log.i("OBDRESPONSEVALSINIT", "FINISH2")
-
-
-
-
-        */
-/*
-        mTimer2 = object : Runnable {
-            override fun run() {
-
-                    Log.i("OBDDATAPOINT", "UPDATE GRAPH")
-
-                val speedData  = obdLastDatapoints[SpeedCommand().name]
-                if(speedData != null){
-                    updateGraphLabel(R.id.graph_realtime_speed, "Speed : " + obdLastDatapoints.get(SpeedCommand().name)?.last()?.y.toString() + SpeedCommand().defaultUnit)
-                    //series1.resetData(speedData)
-                    seriesGraphs[SpeedCommand().name]?.resetData(speedData)
-                }
-
-                val rpmData  = obdLastDatapoints[RPMCommand().name]
-                if(rpmData != null){
-                    updateGraphLabel(R.id.graph_realtime_rpm, "°" + obdLastDatapoints.get(RPMCommand().name)?.last()?.y.toString() + RPMCommand().defaultUnit)
-                    series2.resetData(obdLastDatapoints.get(RPMCommand().name))
-                }
-
-                val oilTemperatureData  = obdLastDatapoints[OilTemperatureCommand().name]
-                if(oilTemperatureData != null){
-                    updateGraphLabel(R.id.graph_oil_temperature, "°" + obdLastDatapoints.get(OilTemperatureCommand().name)?.last()?.y.toString() + OilTemperatureCommand().defaultUnit)
-                    series3.resetData(obdLastDatapoints.get(OilTemperatureCommand().name))
-                }
-
-                val coolantData  = obdLastDatapoints[EngineCoolantTemperatureCommand().name]
-                if(coolantData != null){
-                    updateGraphLabel(R.id.graph_realtime_coolant_temperature, "°" + obdLastDatapoints.get(EngineCoolantTemperatureCommand().name)?.last()?.y.toString() + EngineCoolantTemperatureCommand().defaultUnit)
-                    series4.resetData(obdLastDatapoints.get(EngineCoolantTemperatureCommand().name))
-                }
-
-                mHandler.postDelayed(this, 1000)
-            }
-        }*/
-
-//        obdResponseValues?.set(cmd, arrayOf(DataPoint(0.0000, res)))
-/*
-
-   private fun generateData(): Array<DataPoint?>? {
-
-//        return arrayOf(obdResponseValues.get(SpeedCommand()))
-        val count = 30
-        val values = arrayOfNulls<DataPoint>(count)
-        for (i in 0 until count) {
-            val x = i.toDouble()
-            val f: Double = mRand.nextDouble() * 0.15 + 0.3
-            val y: Double = Math.sin(i * f + 2) + mRand.nextDouble() * 0.3
-            val v = DataPoint(x, y)
-            values[i] = v
-        }
-        return values
-    }
-
-    var mLastRandom = 2.0
-    var mRand: Random = Random()
-    private fun getRandom(): Double {
-        return mRand.nextDouble() * 0.5 - 0.25.let { mLastRandom += it; mLastRandom }
-    }
-
-
-
- val context = this
-                CoroutineScope(Main).launch{
-                    //runBlocking {
-                        graphCommands.forEach {
-                            //CoroutineScope(Main).launch{///remove if panic
-
-                            val obdResponseText: String = async { requestData(it) }.await()
-                            obdLastResponseValues[it] = obdResponseText
-                            manageDatapoints(it, obdResponseText)
-                           // Log.i("OBDRESPONSEVALS", "GET FROM  " + it + " -> " + obdResponseText)
-                            delay(250)
-                            //Thread.sleep(200)
-
-
-                        }
-                    mHandler.postDelayed(context, 200)
-                    //}
-                }
-
- */
