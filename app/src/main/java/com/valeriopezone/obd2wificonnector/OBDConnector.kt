@@ -6,20 +6,15 @@ import android.os.StrictMode
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.github.eltonvs.obd.command.ObdCommand
-import com.github.eltonvs.obd.command.ObdResponse
-import com.github.eltonvs.obd.command.at.DescribeProtocolNumberCommand
-import com.github.eltonvs.obd.command.at.ResetAdapterCommand
-import com.github.eltonvs.obd.command.engine.SpeedCommand
-import com.github.eltonvs.obd.connection.ObdDeviceConnection
-import kotlinx.coroutines.Runnable
+
 import java.net.Socket
 
 class OBDConnector(context: Context) {
     private var obd_wifi_url : String = ""
     private var obd_wifi_port : Int = 0
     private var lastError : String = ""
-    private var obdSocket : Socket? = null
-    private var obdConnection : ObdDeviceConnection? = null
+    public var obdSocket : Socket? = null
+    public var obdConnection : ObdDeviceConnectionOverride? = null
     private var isConnected : Boolean = false
     private var firstRequestDone: Boolean  = false
 
@@ -38,7 +33,7 @@ class OBDConnector(context: Context) {
         try{
             Log.i("OBDCONNECTOR", "CONNECT TO " + obd_wifi_url + " : " + obd_wifi_port)
             obdSocket = Socket( obd_wifi_url,obd_wifi_port)
-            obdSocket!!.keepAlive = true
+           // obdSocket!!.keepAlive = true
 
 
         } catch (t: Throwable) {
@@ -49,9 +44,13 @@ class OBDConnector(context: Context) {
         if(obdSocket!= null && obdSocket!!.isConnected()){
             try{
                 Log.i("OBDCONNECTOR", "CONNECTING THROUGH OBD INTERFACE")
-                obdConnection = ObdDeviceConnection(obdSocket!!.getInputStream(), obdSocket!!.getOutputStream())
+                obdConnection = ObdDeviceConnectionOverride(obdSocket!!.getInputStream(), obdSocket!!.getOutputStream())
                 if(obdConnection != null){
                     isConnected = true
+                    Log.i("OBDCONNECTOR", "CONNECTED")
+
+                    //   val obdResponseText: String = execOBDCommand(ResetAdapterCommand())
+
                     return true
                 }
             } catch (t: Throwable) {
@@ -71,6 +70,7 @@ class OBDConnector(context: Context) {
     fun close(){
         try{
             obdSocket?.close()
+            Log.i("OBDCONNECTOR", "CLOSING SOCKET")
         }catch(T : Throwable){
 
         }
@@ -104,7 +104,7 @@ class OBDConnector(context: Context) {
         }else{
 
             try{
-                val delay = 150L
+                val delay = 50L//150l
 
                 val response = obdConnection?.run(cmd, false,delay)
 

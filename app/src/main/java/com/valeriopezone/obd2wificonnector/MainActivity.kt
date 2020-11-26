@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
 
             //try connect to OBD interface
-            if(false){
+            if(true){
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
             }else{
