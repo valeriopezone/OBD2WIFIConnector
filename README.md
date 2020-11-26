@@ -38,4 +38,5 @@ Arduino ECU Simulator:
 
 1) https://www.instructables.com/Arduino-OBD2-Simulator/
 2) https://www.youtube.com/watch?v=6bu9Dwti1tU
+3) https://www.sparkfun.com/datasheets/Widgets/ELM327_AT_Commands.pdf
 
