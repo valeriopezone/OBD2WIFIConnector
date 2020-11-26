@@ -50,17 +50,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
 
             //try connect to OBD interface
-            if(true){
-                val intent = Intent(this, DashboardActivity::class.java)
-                startActivity(intent)
-            }else{
+
                 launch {
                     findViewById<ProgressBar>(R.id.splashscreen_loader).setVisibility(View.VISIBLE)
                     delay(1500)
                     tryOBDInterfaceConnection()
                     findViewById<ProgressBar>(R.id.splashscreen_loader).setVisibility(View.GONE)
                 }
-            }
+
 
 
         }
