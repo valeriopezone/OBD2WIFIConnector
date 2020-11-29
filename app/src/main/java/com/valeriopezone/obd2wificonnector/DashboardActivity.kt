@@ -105,8 +105,6 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
     private val nFormat: NumberFormat = NumberFormat.getInstance(Locale.FRANCE)
     private var mHandler=  Handler()
     private var mainOBDTimer : Runnable? = null
-
-
     private var job: Job = Job()
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -140,12 +138,12 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
                 CoroutineScope(Main).launch{
 
                     val job = async {
-                        var obdLocalConn : OBDConnector = OBDConnector(this@DashboardActivity)
+                        val obdLocalConn : OBDConnector = OBDConnector(this@DashboardActivity)
                         if(!obdLocalConn.connect()){
                             findViewById<TextView>(R.id.odb_connection_status).text = "Disconnected :("
                             findViewById<TextView>(R.id.odb_connection_status).setTextColor(Color.parseColor("#FF5722"))
                             mHandler.postDelayed(context, 50)
-                        }else {
+                        }else{
                             findViewById<TextView>(R.id.odb_connection_status).text = "Connected!"
                             findViewById<TextView>(R.id.odb_connection_status).setTextColor(Color.parseColor("#4CAF50"))
                             val commandsToSend = if (staticListObtained) {
@@ -154,26 +152,23 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
                                 staticCommands
                             }
 
-                                commandsToSend.forEach {
+                                commandsToSend.forEach {//loop through all commands to send
                                     suspend {
-                                        //send command
-                                        val obdResponseText: String = async {obdLocalConn.execOBDCommand(it)}.await()
-
-                                        if (obdResponseText != "") {
+                                        val obdRes: ObdResponse = async {obdLocalConn.execOBDCommand(it)}.await()
+                                        if (obdRes.value != "") {
                                             launch {
-
-                                                val gId = mapGraphIdsByCMD[it.name]
+                                                val gId = mapGraphIdsByCMD[it.name]//get graph xml element
                                                 if (gId != null) {
-                                                    manageDatapoints(it, obdResponseText)
-                                                    manageGraphData(gId, it, "")
+                                                    manageDatapoints(it, obdRes.value)//shift datapoints
+                                                    manageGraphData(gId, it, obdRes.formattedValue)//update graph value
                                                 }
-                                                val tId = textIndicatorIdsByCMD[it.name]
+                                                val tId = textIndicatorIdsByCMD[it.name]//get text indicator xml element
                                                 if (tId != null) {
-                                                    manageTextIndicator(tId, obdResponseText)
+                                                    manageTextIndicator(tId, obdRes.formattedValue)//update indicator value
                                                 }
                                             }
                                         }
-                                        delay(10)
+                                        delay(10)//wait before next request
                                     }.invoke()
 
                                 }
@@ -184,13 +179,15 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
 
                     }.await()
 
-                    mHandler.postDelayed(context, 10)
+                    mHandler.postDelayed(context, 10)//launch next loop
 
                     //}
                 }
             }
         }
 
+
+        //launch timer
         mHandler.postDelayed(mainOBDTimer as Runnable, 50)
     }
 
@@ -251,7 +248,7 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
     fun manageGraphData(gview : Int, cmd: ObdCommand, label : String){
         val gData  = obdLastDatapoints[cmd.name]
         if(gData != null){
-            updateGraphLabel(gview, obdLastDatapoints.get(cmd.name)?.last()?.y.toString() + cmd.defaultUnit)
+            updateGraphLabel(gview, label)//obdLastDatapoints.get(cmd.name)?.last()?.y.toString() + cmd.defaultUnit
             seriesGraphs[cmd.name]?.resetData(gData)
         }
     }
@@ -268,21 +265,25 @@ class DashboardActivity : AppCompatActivity(), CoroutineScope {
             val number: Number = nFormat.parse(lastResponse)
             Value = number.toDouble()
             //manage datapoint
-        }catch (t: Throwable){
-            //use 0
-        }
 
-        //insert at top of datapoints
-        val currentDataPoints = obdLastDatapoints[cmd.name]
-        if (currentDataPoints != null) {
+            //shift every datapoint to left and insert new value in last position
+            val currentDataPoints = obdLastDatapoints[cmd.name]
+            if (currentDataPoints != null) {
 
                 for(i in 0..pointsPerGraph-2) {
                     obdLastDatapoints[cmd.name]?.set(i,DataPoint(i.toDouble(), currentDataPoints[i+1].y))
                 }
-            obdLastDatapoints[cmd.name]?.set(pointsPerGraph-1,DataPoint((pointsPerGraph-1).toDouble(), Value))
+                obdLastDatapoints[cmd.name]?.set(pointsPerGraph-1,DataPoint((pointsPerGraph-1).toDouble(), Value))
 
 
+            }
+
+            
+        }catch (t: Throwable){
+            //use 0
         }
+
+
     }
 }
 

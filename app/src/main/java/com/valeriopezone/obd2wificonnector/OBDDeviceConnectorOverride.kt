@@ -54,7 +54,7 @@ class ObdDeviceConnectionOverride(private val inputStream: InputStream, private 
      fun readRawData(): String {//fixed for project purposes
         val res = StringBuffer()
         var cc : Int = 0
-         while ({ cc = inputStream.read(); cc }() != 62) {
+         while ({ cc = inputStream.read(); cc }() != 62 && cc != -1) {//
              //Log.i("OBDCONNECTOR", "data : " + cc)
              res.append(cc.toChar())
          }

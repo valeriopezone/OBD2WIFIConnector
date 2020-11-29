@@ -6,6 +6,8 @@ import android.os.StrictMode
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.github.eltonvs.obd.command.ObdCommand
+import com.github.eltonvs.obd.command.ObdRawResponse
+import com.github.eltonvs.obd.command.ObdResponse
 
 import java.net.Socket
 
@@ -92,9 +94,13 @@ class OBDConnector(context: Context) {
     }
 
 
-    suspend fun execOBDCommand(cmd : ObdCommand) : String{
+    suspend fun execOBDCommand(cmd : ObdCommand) : ObdResponse{
+        val requestDelay = 50L//150l
+
         Log.i("OBDCONNECTOR", "Launching CMD : " + cmd.rawCommand.toString())
-        var res:String = ""
+        var res:ObdResponse = ObdResponse(cmd, ObdRawResponse("",requestDelay), "","")
+
+
         if(obdSocket == null || !obdSocket?.isConnected()!!){//|| !isConnected
             Log.i("OBDCONNECTOR EXCEPTION", "CMD " + cmd.rawCommand.toString() + " IMPOSSIBLE - NO CONNECTION")
             when(connect()){
@@ -104,18 +110,22 @@ class OBDConnector(context: Context) {
         }else{
 
             try{
-                val delay = 50L//150l
 
-                val response = obdConnection?.run(cmd, false,delay)
+                val response = obdConnection?.run(cmd, false,requestDelay)
 
                 if (response != null) {
                     Log.i("OBDCONNECTOR RES", cmd.toString() + " = " + response.rawResponse.toString() + "(" + response.formattedValue + ")")
 
-                    res = response.value
+                    res = response//.value
                     if(!firstRequestDone){firstRequestDone = true}
                 }
             } catch (t: Throwable) {
                 Log.i("OBDCONNECTOR EXCEPTION", "NO RESPONSE FOR OBD COMMAND " + cmd.toString() +" :: " + t.message.toString())
+                if(t.message.toString().contains("Broken Pipe") || t.message.toString().contains("Socket close")){
+                    //broken pipe | closed socket
+                    close()
+                    return execOBDCommand(cmd)
+                }
             }
         }
         return res
